@@ -7,8 +7,8 @@ const products = [
   { id: 5, name: "Product 5", price: 50 },
 ];
 
-// Cart storage (array to hold items in the cart)
-let cart = [];
+// Load cart from localStorage if available
+let cart = JSON.parse(localStorage.getItem('cart')) || []; // Initialize cart from localStorage, or an empty array if no cart is stored
 
 // DOM elements
 const productList = document.getElementById("product-list");
@@ -60,6 +60,7 @@ function addToCart(productId) {
   const product = products.find((p) => p.id === productId);
   if (product) {
     cart.push(product); // Add the product to the cart array
+    localStorage.setItem('cart', JSON.stringify(cart)); // Store updated cart in localStorage
     renderCart(); // Re-render the cart after adding
   }
 }
@@ -67,12 +68,14 @@ function addToCart(productId) {
 // Remove item from cart
 function removeFromCart(itemIndex) {
   cart.splice(itemIndex, 1); // Remove the item at the specified index
+  localStorage.setItem('cart', JSON.stringify(cart)); // Store updated cart in localStorage
   renderCart(); // Re-render the cart after removal
 }
 
 // Clear cart
 function clearCart() {
   cart = []; // Empty the cart array
+  localStorage.removeItem('cart'); // Remove cart data from localStorage
   renderCart(); // Re-render the cart after clearing
 }
 
