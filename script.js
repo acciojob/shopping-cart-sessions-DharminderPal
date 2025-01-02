@@ -1,12 +1,8 @@
-// This is the boilerplate code given for you
-// You can modify this code
-// Product data
+// Sample products array
 const products = [
-  { id: 1, name: "Product 1", price: 10 },
-  { id: 2, name: "Product 2", price: 20 },
-  { id: 3, name: "Product 3", price: 30 },
-  { id: 4, name: "Product 4", price: 40 },
-  { id: 5, name: "Product 5", price: 50 },
+    { id: 1, name: 'Product 1', price: 10 },
+    { id: 2, name: 'Product 2', price: 20 },
+    { id: 3, name: 'Product 3', price: 30 },
 ];
 
 // Initialize cart from session storage
@@ -28,28 +24,22 @@ function renderProducts() {
     });
 }
 
-// Render cart list
+// Function to render cart
 function renderCart() {
     const cartList = document.getElementById('cart-list');
     cartList.innerHTML = ''; // Clear existing cart items
 
-    if (cart.length === 0) {
-        cartList.innerHTML = '<p>Your cart is empty.</p>';
-        return;
-    }
-
-    cart.forEach((item, index) => {
+    cart.forEach(item => {
         const cartItem = document.createElement('div');
         cartItem.innerHTML = `
             <h4>${item.name}</h4>
             <p>Price: $${item.price}</p>
-            <button class="remove-from-cart" data-index="${index}">Remove</button>
         `;
         cartList.appendChild(cartItem);
     });
 }
 
-// Add item to cart
+// Function to add product to cart
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     if (product) {
@@ -57,20 +47,6 @@ function addToCart(productId) {
         sessionStorage.setItem('cart', JSON.stringify(cart)); // Update session storage
         renderCart(); // Update cart display
     }
-}
-
-// Remove item from cart
-function removeFromCart(index) {
-    cart.splice(index, 1); // Remove item from cart
-    sessionStorage.setItem('cart', JSON.stringify(cart)); // Update session storage
-    renderCart(); // Update cart display
-}
-
-// Clear cart
-function clearCart() {
-    cart = []; // Clear cart array
-    sessionStorage.removeItem('cart'); // Clear session storage
-    renderCart(); // Update cart display
 }
 
 // Event listener for "Add to Cart" buttons
@@ -81,16 +57,12 @@ document.getElementById('product-list').addEventListener('click', (event) => {
     }
 });
 
-// Event listener for "Remove from Cart" buttons
-document.getElementById('cart-list').addEventListener('click', (event) => {
-    if (event.target.classList.contains('remove-from-cart')) {
-        const index = parseInt(event.target.getAttribute('data-index'));
-        removeFromCart(index);
-    }
-});
-
 // Event listener for "Clear Cart" button
-document.getElementById('clear-cart').addEventListener('click', clearCart);
+document.getElementById('clear-cart').addEventListener('click', () => {
+    cart = []; // Clear cart array
+    sessionStorage.removeItem('cart'); // Clear session storage
+    renderCart(); // Update cart display
+});
 
 // Initial render
 renderProducts();
